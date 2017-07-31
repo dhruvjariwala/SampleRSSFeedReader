@@ -1,0 +1,20 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <!--Card-->
+    <dimen name="card_radius">4dp</dimen>
+
+    <!--Margins-->
+    <dimen name="margin_small">4dp</dimen>
+    <dimen name="margin_medium">16dp</dimen>
+
+    <!--Padding-->
+    <dimen name="padding_small">4dp</dimen>
+    <dimen name="padding_medium">16dp</dimen>
+
+    <!--Image-->
+    <dimen name="image_thumb_size">96dp</dimen>
+
+    <!--Progress Bar-->
+    <dimen name="progress_bar_height">2dp</dimen>
+</resources>
