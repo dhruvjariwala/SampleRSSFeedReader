@@ -30,16 +30,6 @@ jobs:
           fi
       - name: post-failure-comment-on-pr
         if: failure() && steps.validate-commit-message-tag.outcome == 'failure'
-        uses: actions/github-script@v6
-        with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: '👋 Thanks for reporting!'
-            })
-      - name: Add comment to PR
         env:
           URL: "https://api.github.com/repos/dhruvjariwala/SampleRSSFeedReader/issues/comments"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
