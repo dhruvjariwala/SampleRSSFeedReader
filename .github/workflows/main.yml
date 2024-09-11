@@ -33,7 +33,11 @@ jobs:
         env:
           URL: "https://api.github.com/repos/dhruvjariwala/SampleRSSFeedReader/issues/comments"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.number }}
         run: |
+          echo "$URL"
+          echo "$GITHUB_TOKEN"
+          echo "$PR_NUMBER"
           curl \
             -X POST \
             $URL \
