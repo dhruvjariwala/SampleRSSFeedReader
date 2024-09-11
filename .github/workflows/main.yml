@@ -9,7 +9,8 @@ jobs:
         run: |
           echo "Hello World!"
           git log -1 --format='%s'
-          if [[ "Update XML [GMVIEWS_MINOR]" == *"[GMVIEWS_MINOR]"* ]]; then
+          varLog = $(git log -1 --format='%s')
+          if [[ varLog == *"[GMVIEWS_MINOR]"* ]]; then
             echo "GMVIEWS_MINOR exists"
           else
             echo "No TAG exists"
