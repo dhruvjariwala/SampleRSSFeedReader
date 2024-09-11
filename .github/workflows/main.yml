@@ -10,7 +10,7 @@ jobs:
           echo "Hello World!"
           git log -1 --format='%s'
           varLog = $(git log -1 --format='%s')
-          if [[ $varLog == *"[GMVIEWS_MINOR]"* ]]; then
+          if [[ ${{varLog}} == *"[GMVIEWS_MINOR]"* ]]; then
             echo "GMVIEWS_MINOR exists"
           else
             echo "No TAG exists"
