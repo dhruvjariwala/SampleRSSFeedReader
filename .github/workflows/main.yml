@@ -7,5 +7,4 @@ jobs:
       - name: my-step
         run: |
           echo "Hello World!"
-          exit 1
-          echo "Hello World! NEW"
+          git log -1
