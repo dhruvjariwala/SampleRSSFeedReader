@@ -10,8 +10,9 @@ jobs:
           echo "Hello World!"
           echo "GITHUB_COMMIT_MESSAGE=$(git log -1 --format='%s')" >> $GITHUB_ENV
           echo $GITHUB_COMMIT_MESSAGE
-          if [[ $GITHUB_COMMIT_MESSAGE == *"[GMVIEWS_MINOR]"* ]]; then
+          if [[ $GITHUB_COMMIT_MESSAGE == *"[GMVIEWS_MINOR]"* || $GITHUB_COMMIT_MESSAGE == *"[GMVIEWS_BUG_FIX]"* ]]; then
             echo "GMVIEWS_MINOR exists"
           else
             echo "No TAG exists"
+            exit 1
           fi
