@@ -9,6 +9,7 @@ jobs:
       - name: set-env
         run: |
           echo "GITHUB_COMMIT_MESSAGE=$(git log -1 --format='%s')" >> $GITHUB_ENV
+          
       - name: validate-commit-message-tag
         id: validate-commit-message-tag
         run: |
@@ -24,6 +25,7 @@ jobs:
             echo "GMVIEWS tag required for automated release notes does NOT exists"
             exit 1
           fi
+          
       - name: post-failure-comment-on-pr
         id: post-failure-comment-on-pr
         if: failure() && steps.validate-commit-message-tag.outcome == 'failure'
