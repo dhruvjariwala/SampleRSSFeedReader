@@ -39,3 +39,14 @@ jobs:
               repo: context.repo.repo,
               body: '👋 Thanks for reporting!'
             })
+      - name: Add comment to PR
+        env:
+          URL: "https://api.github.com/repos/dhruvjariwala/SampleRSSFeedReader/issues/comments"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl \
+            -X POST \
+            $URL \
+            -H "Content-Type: application/json" \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            --data '{ "body": "blah blah" }'
