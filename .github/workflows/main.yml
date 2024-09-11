@@ -29,32 +29,13 @@ jobs:
             echo "GMVIEWS tag required for automated release notes does NOT exists"
             exit 1
           fi
-      - uses: actions/github-script@v6
-        id: get_issue_number
-        with:
-          script: |
-            if (context.issue.number) {
-              // Return issue number if present
-              return context.issue.number;
-            } else {
-              // Otherwise return issue number from commit
-              return (
-                await github.rest.repos.listPullRequestsAssociatedWithCommit({
-                  commit_sha: context.sha,
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                })
-              ).data[0].number;
-            }
-          result-encoding: string
       - name: post-failure-comment-on-pr
         if: failure() && steps.validate-commit-message-tag.outcome == 'failure'
         env:
           URL: "https://api.github.com/repos/dhruvjariwala/SampleRSSFeedReader/issues/comments"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ secrets.GITHUB_REF }}
+          PR_NUMBER: ${{ github.event.GITHUB_REF }}
         run: |
-          echo '${{steps.get_issue_number.outputs.result}}'
           echo "$URL"
           echo "$GITHUB_TOKEN"
           echo "$PR_NUMBER"
