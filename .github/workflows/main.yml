@@ -23,10 +23,10 @@ jobs:
             exit 1
           fi
       - name: post-failure-comment-on-pr
-        if: failure() && steps.validate-commit-message-tag.outcome == 'failure'
         env:
           URL: ${{ github.event.issue.comments_url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        if: failure() && steps.validate-commit-message-tag.outcome == 'failure'
         run: |
           curl \
             -X POST \
