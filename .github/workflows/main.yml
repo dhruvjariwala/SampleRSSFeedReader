@@ -2,13 +2,8 @@ name: hello-world
 on: push
 jobs:
   my-job:
-    continue-on-error: true
-    permissions:
-      contents: write
-      pull-requests: write
-      repository-projects: write
-      id-token: write
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - name: set-env
@@ -31,19 +26,12 @@ jobs:
           fi
       - name: post-failure-comment-on-pr
         if: failure() && steps.validate-commit-message-tag.outcome == 'failure'
-        env:
-          URL: "https://api.github.com/repos/dhruvjariwala/SampleRSSFeedReader/issues/comments"
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ github.event.GITHUB_REF }}
-        run: |
-          echo "$URL"
-          echo "$GITHUB_TOKEN"
-          echo "$PR_NUMBER"
-          echo "$GITHUB_REF"
-          
-          curl \
-            -X POST \
-            $URL \
-            -H "Content-Type: application/json" \
-            -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{ "body": "blah blah" }'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '👋 Thanks for reporting!'
+            })
