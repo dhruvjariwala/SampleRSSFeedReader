@@ -14,7 +14,6 @@ jobs:
       - name: set-env
         run: |
           echo "GITHUB_COMMIT_MESSAGE=$(git log -1 --format='%s')" >> $GITHUB_ENV
-          echo "GITHUB_PR_NUMBER=$(jq --raw-output .pull_request.number '$GITHUB_EVENT_PATH')" >> $GITHUB_ENV
       - name: validate-commit-message-tag
         id: validate-commit-message-tag
         run: |
@@ -35,11 +34,12 @@ jobs:
         env:
           URL: "https://api.github.com/repos/dhruvjariwala/SampleRSSFeedReader/issues/comments"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ github.event.number }}
+          PR_NUMBER: ${{ secrets.GITHUB_REF }}
         run: |
           echo "$URL"
           echo "$GITHUB_TOKEN"
           echo "$PR_NUMBER"
+          echo "$GITHUB_REF"
           
           curl \
             -X POST \
