@@ -25,6 +25,7 @@ jobs:
             exit 1
           fi
       - name: post-failure-comment-on-pr
+        id: post-failure-comment-on-pr
         if: failure() && steps.validate-commit-message-tag.outcome == 'failure'
         uses: actions/github-script@v6
         with:
