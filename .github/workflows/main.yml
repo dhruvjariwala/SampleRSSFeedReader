@@ -9,3 +9,8 @@ jobs:
         run: |
           echo "Hello World!"
           git log -1 --format='%s'
+          if [[ contains(${{ git log -1 --format='%s' }}, "[GMVIEWS_MINOR]" ]]; then
+            echo "GMVIEWS_MINOR exists"
+          else
+            echo "No TAG exists"
+          fi
