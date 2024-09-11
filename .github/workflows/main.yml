@@ -9,8 +9,6 @@ jobs:
       - name: set-env
         run: |
           echo "GITHUB_COMMIT_MESSAGE=$(git log -1 --format='%s')" >> $GITHUB_ENV
-          echo "URL=${{ github.event.issue.comments_url }}" >> $GITHUB_ENV
-          echo "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}" >> $GITHUB_ENV
       - name: validate-commit-message-tag
         id: validate-commit-message-tag
         run: |
@@ -27,10 +25,12 @@ jobs:
           fi
       - name: post-failure-comment-on-pr
         if: failure() && steps.validate-commit-message-tag.outcome == 'failure'
-        run: |
-          curl \
-            -X POST \
-            $URL \
-            -H "Content-Type: application/json" \
-            -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{ "body": "blah blah" }'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '👋 Thanks for reporting!'
+            })
