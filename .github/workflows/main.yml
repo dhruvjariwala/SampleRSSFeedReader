@@ -9,7 +9,6 @@ jobs:
       - name: set-env
         run: |
           echo "GITHUB_COMMIT_MESSAGE=$(git log -1 --format='%s')" >> $GITHUB_ENV
-          
       - name: validate-commit-message-tag
         id: validate-commit-message-tag
         run: |
