@@ -5,11 +5,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Set env
-        run: echo "GITHUB_COMMIT_MESSAGE=$(git log -1 --format='%s')" >> $GITHUB_ENV
       - name: my-step
         run: |
           echo "Hello World!"
+          echo "GITHUB_COMMIT_MESSAGE=$(git log -1 --format='%s')" >> $GITHUB_ENV
           echo $GITHUB_COMMIT_MESSAGE
           if [[ $GITHUB_COMMIT_MESSAGE == *"[GMVIEWS_MINOR]"* ]]; then
             echo "GMVIEWS_MINOR exists"
