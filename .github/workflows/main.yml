@@ -7,13 +7,17 @@ jobs:
       - uses: actions/checkout@v4
       - name: set-env
         run: echo "GITHUB_COMMIT_MESSAGE=$(git log -1 --format='%s')" >> $GITHUB_ENV
-      - name: my-step
+      - name: validate-commit-message-tag
         run: |
           echo "Hello World!"
           echo $GITHUB_COMMIT_MESSAGE
-          if [[ $GITHUB_COMMIT_MESSAGE == *"[GMVIEWS_MINOR]"* || $GITHUB_COMMIT_MESSAGE == *"[GMVIEWS_BUG_FIX]"* ]]; then
-            echo "GMVIEWS_MINOR exists"
+          if [[ $GITHUB_COMMIT_MESSAGE == *"[GMVIEWS_MAJOR]"* || 
+                  $GITHUB_COMMIT_MESSAGE == *"[GMVIEWS_MINOR]"* ||
+                  $GITHUB_COMMIT_MESSAGE == *"[GMVIEWS_BUG_FIX]"* ||
+                  $GITHUB_COMMIT_MESSAGE == *"[GMVIEWS_OTHER]"* ||
+                  ]]; then
+            echo "GMVIEWS tag required for automated release notes does exists"
           else
-            echo "No TAG exists"
+            echo "GMVIEWS tag required for automated release notes does NOT exists"
             exit 1
           fi
