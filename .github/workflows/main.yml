@@ -14,11 +14,13 @@ jobs:
       - name: set-env
         run: |
           echo "GITHUB_COMMIT_MESSAGE=$(git log -1 --format='%s')" >> $GITHUB_ENV
+          echo "GITHUB_PR_NUMBER=$(jq --raw-output .pull_request.number '$GITHUB_EVENT_PATH')" >> $GITHUB_ENV
       - name: validate-commit-message-tag
         id: validate-commit-message-tag
         run: |
           echo "Hello World!"
           echo $GITHUB_COMMIT_MESSAGE
+          echo $GITHUB_PR_NUMBER
           if [[ $GITHUB_COMMIT_MESSAGE == *"[GMVIEWS_MAJOR]"* || 
                   $GITHUB_COMMIT_MESSAGE == *"[GMVIEWS_MINOR]"* ||
                   $GITHUB_COMMIT_MESSAGE == *"[GMVIEWS_BUG_FIX]"* ||
@@ -38,6 +40,7 @@ jobs:
           echo "$URL"
           echo "$GITHUB_TOKEN"
           echo "$PR_NUMBER"
+          
           curl \
             -X POST \
             $URL \
