@@ -1,5 +1,5 @@
 name: hello-world
-on: push
+on: [pull_request, push]
 jobs:
   my-job:
     runs-on: ubuntu-latest
@@ -14,8 +14,9 @@ jobs:
         id: validate-commit-message-tag
         run: |
           echo "Hello World!"
-          echo $GITHUB_COMMIT_MESSAGE
-          echo $GITHUB_PR_NUMBER
+          echo "$GITHUB_COMMIT_MESSAGE"
+          echo "$GITHUB_PR_NUMBER"
+          echo "${{ github.event.head_commit.message }}"
           if [[ $GITHUB_COMMIT_MESSAGE == *"[GMVIEWS_MAJOR]"* || 
                   $GITHUB_COMMIT_MESSAGE == *"[GMVIEWS_MINOR]"* ||
                   $GITHUB_COMMIT_MESSAGE == *"[GMVIEWS_BUG_FIX]"* ||
