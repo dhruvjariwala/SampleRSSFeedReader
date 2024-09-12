@@ -1,24 +1,26 @@
 name: hello-world
-on: push
+on: [pull_request, push]
 jobs:
   my-job:
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
+    
       - uses: actions/checkout@v4
       - name: set-env
         run: |
-          echo "GITHUB_COMMIT_MESSAGE=$(git log -1 --format='%s')" >> $GITHUB_ENV
+            echo "COMMIT_MESSAGE=$(git log -1 --format='%s')" >> $GITHUB_ENV
       - name: validate-commit-message-tag
         id: validate-commit-message-tag
         run: |
           echo "Hello World!"
-          echo $GITHUB_COMMIT_MESSAGE
-          echo $GITHUB_PR_NUMBER
-          if [[ $GITHUB_COMMIT_MESSAGE == *"[GMVIEWS_MAJOR]"* || 
-                  $GITHUB_COMMIT_MESSAGE == *"[GMVIEWS_MINOR]"* ||
-                  $GITHUB_COMMIT_MESSAGE == *"[GMVIEWS_BUG_FIX]"* ||
-                  $GITHUB_COMMIT_MESSAGE == *"[GMVIEWS_OTHER]"* ]]; then
+          echo "$COMMIT_MESSAGE"
+          echo "$GITHUB_PR_NUMBER"
+          echo "${{ github.event.head_commit.message }}"
+          if [[ $COMMIT_MESSAGE == *"[GMVIEWS_MAJOR]"* || 
+                  $COMMIT_MESSAGE == *"[GMVIEWS_MINOR]"* ||
+                  $COMMIT_MESSAGE == *"[GMVIEWS_BUG_FIX]"* ||
+                  $COMMIT_MESSAGE == *"[GMVIEWS_OTHER]"* ]]; then
             echo "GMVIEWS tag required for automated release notes does exists"
           else
             echo "GMVIEWS tag required for automated release notes does NOT exists"
